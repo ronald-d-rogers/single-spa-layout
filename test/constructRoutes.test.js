@@ -457,16 +457,6 @@ describe("constructRoutes", () => {
       });
     });
 
-    it(`throws on a default route that has a path`, () => {
-      expect(() => {
-        constructRoutes({
-          routes: [{ type: "route", path: "app1", default: true }],
-        });
-      }).toThrowError(
-        "Invalid routesConfig.routes[0]: cannot have both path and set default to true."
-      );
-    });
-
     it(`throws on a route that has no path and is not default`, () => {
       expect(() => {
         constructRoutes({

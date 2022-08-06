@@ -443,7 +443,7 @@ function validateAndSanitize(routesConfig) {
       const hasDefault = route.hasOwnProperty("default");
       let fullPath;
 
-      if (hasPath) {
+      if (hasPath && !hasDefault) {
         validateString(`${propertyName}.path`, route.path);
         fullPath = resolvePath(parentPath, route.path);
         route.activeWhen = pathToActiveWhen(fullPath, route.exact);
@@ -455,12 +455,6 @@ function validateAndSanitize(routesConfig) {
       } else {
         throw Error(
           `Invalid ${propertyName}: routes must have either a path or default property.`
-        );
-      }
-
-      if (hasPath && hasDefault && route.default) {
-        throw Error(
-          `Invalid ${propertyName}: cannot have both path and set default to true.`
         );
       }
 
