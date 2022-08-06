@@ -36,23 +36,23 @@ export function matchRoute(resolvedRoutesConfig, pathMatch) {
 function recurseRoutes(location, routes) {
   const result = [];
 
-  let lastRoute = null;
-  let matched = false;
+  // let lastRoute = null;
+  // let matched = false;
   routes.forEach((route) => {
     if (route.type === "application") {
       result.push(route);
     } else if (route.type === "route") {
-      if (matched && lastRoute && lastRoute.break) {
-        return;
-      }
+      // if (matched && lastRoute && lastRoute.break) {
+      //   return;
+      // }
       if (route.activeWhen(location)) {
-        matched = true;
+        // matched = true;
         result.push({
           ...route,
           routes: recurseRoutes(location, route.routes),
         });
       }
-      lastRoute = route;
+      // lastRoute = route;
     } else if (Array.isArray(route.routes)) {
       result.push({
         ...route,

@@ -55,6 +55,7 @@ describe(`matchRoute`, () => {
               {
                 type: "route",
                 path: "/:id",
+                default: true,
                 routes: [{ type: "application", name: "detail" }],
               },
             ],
