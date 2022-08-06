@@ -43,6 +43,49 @@ describe(`matchRoute`, () => {
           },
           {
             type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                path: "search",
+                exact: true,
+                routes: [{ type: "application", name: "global-search" }],
+              },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    exact: true,
+                    path: "/:channel-id",
+                    routes: [{ type: "application", name: "channel" }],
+                  },
+                  {
+                    type: "route",
+                    path: "/:channel-id/search",
+                    routes: [{ type: "application", name: "channel-search" }],
+                  },
+                  {
+                    type: "route",
+                    default: true,
+                    routes: [
+                      {
+                        type: "route",
+                        path: "/:channel-id/:id",
+                        routes: [
+                          { type: "application", name: "channel-detail" },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "route",
             path: "users/:id",
             routes: [
               { type: "application", name: "user-home" },
@@ -119,6 +162,169 @@ describe(`matchRoute`, () => {
                 type: "route",
                 path: "subroute",
                 routes: [{ type: "application", name: "subroute" }],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+    });
+
+    it(`matches single routes`, () => {
+      expect(matchRoute(routesConfig, "/app3/search")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                path: "search",
+                routes: [{ type: "application", name: "global-search" }],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+
+      expect(matchRoute(routesConfig, "/app3/id")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    path: "/:channel-id",
+                    routes: [{ type: "application", name: "channel" }],
+                  },
+                ],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+
+      expect(matchRoute(routesConfig, "/app3")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    default: true,
+                    routes: [],
+                  },
+                ],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+    });
+
+    it(`matches deeply nested single routes`, () => {
+      expect(matchRoute(routesConfig, "/app3/channel/search")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    path: "/:channel-id/search",
+                    routes: [{ type: "application", name: "channel-search" }],
+                  },
+                ],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+
+      expect(matchRoute(routesConfig, "/app3/channel/id")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    default: true,
+                    routes: [
+                      {
+                        type: "route",
+                        path: "/:channel-id/:id",
+                        routes: [
+                          { type: "application", name: "channel-detail" },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+
+      expect(matchRoute(routesConfig, "/app3/channel")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                default: true,
+                routes: [
+                  {
+                    type: "route",
+                    exact: true,
+                    path: "/:channel-id",
+                    routes: [{ type: "application", name: "channel" }],
+                  },
+                ],
               },
             ],
           },
