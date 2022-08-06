@@ -95,48 +95,6 @@ describe(`matchRoute`, () => {
       });
     });
 
-    it(`matches single routes`, () => {
-      expect(matchRoute(routesConfig, "/app3/search")).toMatchObject({
-        ...routesConfig,
-        routes: [
-          { type: "application", name: "nav" },
-          {
-            type: "route",
-            path: "app3",
-            routes: [
-              { type: "application", name: "app3" },
-              {
-                type: "route",
-                path: "search",
-                routes: [{ type: "application", name: "search" }],
-              },
-            ],
-          },
-          { type: "application", name: "footer" },
-        ],
-      });
-
-      expect(matchRoute(routesConfig, "/app3/id")).toMatchObject({
-        ...routesConfig,
-        routes: [
-          { type: "application", name: "nav" },
-          {
-            type: "route",
-            path: "app3",
-            routes: [
-              { type: "application", name: "app3" },
-              {
-                type: "route",
-                path: "/:id",
-                routes: [{ type: "application", name: "detail" }],
-              },
-            ],
-          },
-          { type: "application", name: "footer" },
-        ],
-      });
-    });
-
     it(`matches nested routes`, () => {
       expect(matchRoute(routesConfig, "/app1")).toMatchObject({
         ...routesConfig,
@@ -179,6 +137,48 @@ describe(`matchRoute`, () => {
                 type: "route",
                 path: "subroute",
                 routes: [{ type: "application", name: "subroute" }],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+    });
+
+    it(`matches single routes`, () => {
+      expect(matchRoute(routesConfig, "/app3/search")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                path: "search",
+                routes: [{ type: "application", name: "search" }],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
+
+      expect(matchRoute(routesConfig, "/app3/id")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                path: "/:id",
+                routes: [{ type: "application", name: "detail" }],
               },
             ],
           },
