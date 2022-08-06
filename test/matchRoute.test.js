@@ -115,6 +115,26 @@ describe(`matchRoute`, () => {
           { type: "application", name: "footer" },
         ],
       });
+
+      expect(matchRoute(routesConfig, "/app3/id")).toMatchObject({
+        ...routesConfig,
+        routes: [
+          { type: "application", name: "nav" },
+          {
+            type: "route",
+            path: "app3",
+            routes: [
+              { type: "application", name: "app3" },
+              {
+                type: "route",
+                path: "/:id",
+                routes: [{ type: "application", name: "detail" }],
+              },
+            ],
+          },
+          { type: "application", name: "footer" },
+        ],
+      });
     });
 
     it(`matches nested routes`, () => {
